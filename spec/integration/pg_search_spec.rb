@@ -1092,7 +1092,7 @@ describe "an Active Record model which includes PgSearch" do
     end
 
     context "with PgSearch.multisearch_options set to a Hash" do
-      before { allow(PgSearch).to receive(:multisearch_options).and_return({:using => :dmetaphone}) }
+      before { allow(PgSearch).to receive(:multisearch_options).and_return(:using => :dmetaphone) }
       subject { PgSearch.multisearch(query).map(&:searchable) }
 
       with_model :MultisearchableModel do

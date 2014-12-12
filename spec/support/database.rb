@@ -43,7 +43,7 @@ def install_extension_if_missing(name, query, expected_result)
   postgresql_version = connection.send(:postgresql_version)
   result = connection.select_value(query)
   raise "Unexpected output for #{query}: #{result.inspect}" unless result.downcase == expected_result.downcase
-rescue => e
+rescue
   begin
     if postgresql_version >= 90100
       ActiveRecord::Base.connection.execute "CREATE EXTENSION #{name};"
@@ -52,13 +52,13 @@ rescue => e
       ActiveRecord::Base.connection.execute File.read(File.join(share_path, 'contrib', "#{name}.sql"))
       puts $!.message
     end
-  rescue => e2
+  rescue => exception
     at_exit do
       puts "-" * 80
       puts "Please install the #{name} contrib module"
       puts "-" * 80
     end
-    raise e2
+    raise exception
   end
 end
 

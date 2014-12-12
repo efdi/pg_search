@@ -13,12 +13,12 @@ module PgSearch
     end
 
     def apply(scope)
-      scope.
-        select("#{quoted_table_name}.*, (#{rank}) AS pg_search_rank").
-        where(conditions).
-        order("pg_search_rank DESC, #{order_within_rank}").
-        joins(joins).
-        extend(DisableEagerLoading)
+      scope
+        .select("#{quoted_table_name}.*, (#{rank}) AS pg_search_rank")
+        .where(conditions)
+        .order("pg_search_rank DESC, #{order_within_rank}")
+        .joins(joins)
+        .extend(DisableEagerLoading)
     end
 
     # workaround for https://github.com/Casecommons/pg_search/issues/14

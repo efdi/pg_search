@@ -1,7 +1,6 @@
 module PgSearch
   module Features
     class Trigram < Feature
-
       def conditions
         if options[:threshold]
           Arel::Nodes::Grouping.new(

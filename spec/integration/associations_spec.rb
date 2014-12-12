@@ -132,7 +132,6 @@ describe PgSearch do
         expect(results.map(&:title)).to match_array(included.map(&:title))
         expect(results).not_to include(excluded)
       end
-
     end
 
     context "across multiple associations" do
@@ -316,7 +315,6 @@ describe PgSearch do
         included.each { |object| expect(results).to include(object) }
         excluded.each { |object| expect(results).not_to include(object) }
       end
-
     end
 
     context "against non-text columns" do

@@ -958,7 +958,6 @@ describe "an Active Record model which includes PgSearch" do
             :against => :content,
             :ranked_by => ":tsearch"
 
-
           once = ModelWithPgSearch.create!(:content => 'foo bar')
           twice = ModelWithPgSearch.create!(:content => 'foo foo')
 
@@ -1158,7 +1157,6 @@ describe "an Active Record model which includes PgSearch" do
       end
 
       before do
-
         class SearchableSubclassModel < ASuperclassModel
           include PgSearch
           multisearchable :against => :content

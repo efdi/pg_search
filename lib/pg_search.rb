@@ -31,7 +31,7 @@ module PgSearch
                        unless options.respond_to?(:merge)
                          raise ArgumentError, "pg_search_scope expects a Hash or Proc"
                        end
-                       lambda { |query| {:query => query}.merge(options) }
+                       ->(query) { {:query => query}.merge(options) }
                      end
 
       method_proc = lambda do |*args|

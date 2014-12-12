@@ -38,7 +38,7 @@ if ENV["LOGGER"]
   ActiveRecord::Base.logger = Logger.new(STDOUT)
 end
 
-def install_extension_if_missing(name, query, expected_result)
+def install_extension_if_missing(name, query, expected_result) # rubocop:disable Metrics/AbcSize
   connection = ActiveRecord::Base.connection
   postgresql_version = connection.send(:postgresql_version)
   result = connection.select_value(query)

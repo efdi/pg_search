@@ -33,9 +33,9 @@ module PgSearch
     delegate :connection, :quoted_table_name, :to => :@model
 
     def conditions
-      config.features.reject do |feature_name, feature_options|
+      config.features.reject do |_feature_name, feature_options|
         feature_options && feature_options[:sort_only]
-      end.map do |feature_name, feature_options|
+      end.map do |feature_name, _feature_options|
         feature_for(feature_name).conditions
       end.inject do |accumulator, expression|
         Arel::Nodes::Or.new(accumulator, expression)

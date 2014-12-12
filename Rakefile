@@ -2,7 +2,7 @@ require 'bundler'
 Bundler::GemHelper.install_tasks
 
 def bundle_exec(command)
-  sh %Q{bundle update && bundle exec #{command}}
+  sh %{bundle update && bundle exec #{command}}
 end
 
 desc "Run all specs"

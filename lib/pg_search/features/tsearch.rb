@@ -1,5 +1,3 @@
-# rubocop:disable Metrics/ClassLength
-
 require "pg_search/compatibility"
 require "pg_search/features/tsearch/ts_queryable"
 require "pg_search/features/tsearch/ts_documentable"

@@ -2,8 +2,6 @@ module PgSearch
   module Features
     class TSearch < Feature
       module TSearchRank
-        extend self
-
         DEFAULT_NORMALIZATION = 0
 
         def build_sql(document, tsquery, normalization)
@@ -16,10 +14,11 @@ module PgSearch
           #   16 divides the rank by 1 + the logarithm of the number of unique words in document
           #   32 divides the rank by itself + 1
           # The integer option controls several behaviors, so it is a bit mask: you can specify one or more behaviors
-          normalization = normalization || DEFAULT_NORMALIZATION
+          normalization ||= DEFAULT_NORMALIZATION
 
           "ts_rank((#{document}), (#{tsquery}), #{normalization})"
         end
+        module_function :build_sql
       end
     end
   end

@@ -2,11 +2,10 @@ module PgSearch
   module Features
     class TSearch < Feature
       module TSHeadline
-        extend self
-
         def build_sql(document, tsquery, options)
           "ts_headline((#{document}), (#{tsquery}), '#{format_options(options)}')"
         end
+        module_function :build_sql
 
         private
 
@@ -21,6 +20,7 @@ module PgSearch
             "#{key} = #{value}" if value
           end.compact.join(", ")
         end
+        module_function :format_options
       end
     end
   end

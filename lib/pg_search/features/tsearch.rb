@@ -35,7 +35,7 @@ module PgSearch
       end
 
       def highlight
-        arel_wrap(ts_headline)
+        arel_wrap( TSHeadline.build_sql(document, tsquery, options[:highlight]) )
       end
 
       private
@@ -115,10 +115,6 @@ module PgSearch
         "ts_rank((#{tsdocument}), (#{tsquery}), #{normalization})"
       end
 
-      def ts_headline
-        "ts_headline((#{document}), (#{tsquery}), '#{ts_headline_options}')"
-      end
-
       def dictionary
         Compatibility.build_quoted(options[:dictionary] || :simple)
       end
@@ -148,16 +144,26 @@ module PgSearch
         end
       end
 
-      def ts_headline_options
-        return nil unless options[:highlight].is_a?(Hash)
+      module TSHeadline
+        extend self
 
-        headline_options = {}
-        headline_options["StartSel"] = options[:highlight][:start_sel]
-        headline_options["StopSel"] = options[:highlight][:stop_sel]
+        def build_sql(document, tsquery, options)
+          "ts_headline((#{document}), (#{tsquery}), '#{format_options(options)}')"
+        end
 
-        headline_options.map do |key, value|
-          "#{key} = #{value}" if value
-        end.compact.join(", ")
+        private
+
+        def format_options(options)
+          return nil unless options.is_a?(Hash)
+
+          headline_options = {}
+          headline_options["StartSel"] = options[:start_sel]
+          headline_options["StopSel"] = options[:stop_sel]
+
+          headline_options.map do |key, value|
+            "#{key} = #{value}" if value
+          end.compact.join(", ")
+        end
       end
     end
   end

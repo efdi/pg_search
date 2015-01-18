@@ -1,6 +1,7 @@
 # rubocop:disable Metrics/ClassLength
 
 require "pg_search/compatibility"
+require "pg_search/features/tsearch/ts_headline"
 require "active_support/core_ext/module/delegation"
 
 module PgSearch
@@ -145,28 +146,6 @@ module PgSearch
           normalization = normalization || DEFAULT_NORMALIZATION
 
           "ts_rank((#{document}), (#{tsquery}), #{normalization})"
-        end
-      end
-
-      module TSHeadline
-        extend self
-
-        def build_sql(document, tsquery, options)
-          "ts_headline((#{document}), (#{tsquery}), '#{format_options(options)}')"
-        end
-
-        private
-
-        def format_options(options)
-          return nil unless options.is_a?(Hash)
-
-          headline_options = {}
-          headline_options["StartSel"] = options[:start_sel]
-          headline_options["StopSel"] = options[:stop_sel]
-
-          headline_options.map do |key, value|
-            "#{key} = #{value}" if value
-          end.compact.join(", ")
         end
       end
     end
